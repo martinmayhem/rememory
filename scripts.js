@@ -13,7 +13,9 @@ function flipCard() {
         // first click
         hasFlippedCard = true;
         firstCard = this;
-    
+        if (Math.random() > 0.7) { //30% of the first flips it will shuffle all available cards
+            shuffle();
+        }
         return;
     }
 
@@ -32,7 +34,9 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
-    resetBoard();
+    firstCard.classList.add('anti-shuffle');
+    secondCard.classList.add('anti-shuffle');
+    shuffle(); // After every succesfull turn, it will shuffle the remaining of the cards
 }
 
 function unflipCards() {
@@ -51,16 +55,18 @@ function resetBoard() {
     lockBoard = false;
     firstCard = null;
     secondCard = null;
-    shuffle();
 }
 
 function shuffle() {
     cards.forEach(card => {
-      let randomPos = Math.floor(Math.random() * 12);
-      card.style.order = randomPos;
+        if (!card.classList.contains('anti-shuffle')) {
+            let randomPos = Math.floor(Math.random() * 18);
+            card.style.order = randomPos;
+        }
+      
     });
   }
 
 
 cards.forEach(card => card.addEventListener('click', flipCard));
-shuffle();
+shuffle(); // Shuffle in the beginning
