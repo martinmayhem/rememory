@@ -13,6 +13,7 @@ function flipCard() {
         // first click
         hasFlippedCard = true;
         firstCard = this;
+        firstCard.classList.add('frozen');
         if (Math.random() > 0.7) { //30% of the first flips it will shuffle all available cards
             shuffle();
         }
@@ -21,6 +22,7 @@ function flipCard() {
 
     // second click
     secondCard = this;
+    secondCard.classList.add('frozen');
 
     checkForMatch();
 }
@@ -34,8 +36,9 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
-    firstCard.classList.add('anti-shuffle');
-    secondCard.classList.add('anti-shuffle');
+    firstCard.classList.add('frozen');
+    secondCard.classList.add('frozen');
+    resetBoard();
     shuffle(); // After every succesfull turn, it will shuffle the remaining of the cards
 }
 
@@ -45,7 +48,8 @@ function unflipCards() {
     setTimeout(() => {
       firstCard.classList.remove('action-flip-card');
       secondCard.classList.remove('action-flip-card');
-  
+      firstCard.classList.remove('frozen');
+      secondCard.classList.remove('frozen');
       resetBoard();
     }, 1000);
 }
@@ -58,13 +62,51 @@ function resetBoard() {
 }
 
 function shuffle() {
+
+    let shuffledCards = document.querySelectorAll('.frozen');
+    const shuffledCardsArray = Array.from(shuffledCards)
+    let flag = false;
     cards.forEach(card => {
-        if (!card.classList.contains('anti-shuffle')) {
-            let randomPos = Math.floor(Math.random() * 18);
+        if (!shuffledCardsArray.includes(card)) {
+
+            do {
+                let randomPos = Math.floor(Math.random() * 18);
+
+                if (shuffledCardsArray.length == 0){
+                    break;
+                }
+
+                shuffledCardsArray.forEach(shuffleCard => { //TODO: Fel sätt att få order
+                    shuffleCard.style.order != randomPos ? flag = true : flag = false;
+                    //TODO: när man inte har en position
+                })
+                if (flag) {
+                    break;
+                }
+            } while(false);
+
             card.style.order = randomPos;
+            shuffledCardsArray.add(card);
         }
-      
     });
+
+    /*
+    cards.forEach(card => {
+        if (!card.classList.contains('frozen') || !card.classList.contains('frozenTemporary')) {
+            while(true) {
+                let randomPos = Math.floor(Math.random() * 18);
+                if (!frozenCards.includes(randomPos)) { //PROBLEM: Jämnför med positioner
+                    break;
+                }
+            }
+            //PROBLEM: Detta borde inte funka, jag måste lägga in dessa i frozenCards, eller döpa om till shuffledCards
+            card.style.order = randomPos;
+            shuffledCards.add(card);
+        }
+    });
+    */
+    
+    //shuffledCards = null;
   }
 
 
