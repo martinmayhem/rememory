@@ -2,6 +2,13 @@ body {
     background-color: black;
 }
 
+.container {
+    min-width:800px; 
+    max-width:1200px; 
+    margin:0 auto;
+    margin-top: 2rem;
+}
+
 .logo-container  {
     background-image: url(img/senilmemory.png);
     width: 100%;
@@ -15,17 +22,11 @@ body {
 .footer-container {
     background-image: url(img/powered.png);
     width: 100%;
-    height: 6rem;
+    height: 5rem;
     background-size: contain;
     background-position-x: center;
     background-repeat: no-repeat;
     margin: 1rem;
-}
-
-.container {
-    width:1200px; 
-    margin:0 auto;
-    margin-top: 2rem;
 }
 
 .card-container {
@@ -38,9 +39,9 @@ body {
 
   .card {
       background-color: white;
-      height: 13rem;
-      width: 11%;
-      margin: 2rem;
+      height: 12rem;
+      width: 8.5rem;
+      margin: 1.5rem;
       border-radius: 1rem;
       transform-style: preserve-3d;
       position: relative;
@@ -52,18 +53,19 @@ body {
 
   .action-flip-card {
     transform: rotateY(180deg);
-    transition: transform 0.1s;
+    transition: transform 0.2s;
   }
 
   .card-front {
       background-image: url("img/hiqlog.png");
       height: 100%;
-      width: 100%;
+      width: 90%;
       position: absolute;
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
       backface-visibility: hidden;
+      margin-left:0.5rem;
   }
 
   .card-back {
@@ -76,22 +78,55 @@ body {
     transform: rotateY( 180deg );
 }
 
-.card-back-star {
+.card-back-star,
+.card-back-mushroom,
+.card-back-coin,
+.card-back-chest,
+.card-back-musicbox,
+.card-back-frog,
+.card-back-flower,
+.card-back-box,
+.card-back-brain {
     margin:0 auto;
-    margin-top: 2.5rem;
+    margin-top: 3rem;
     height: 100%;
-    width: 90%;
+    width: 70%;
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+.card-back-star {
     background-image: url("img/stars.png");
 }
 
 .card-back-mushroom {
-    margin:0 auto;
-    margin-top: 2.5rem;
-    height: 100%;
-    width: 90%;
-    background-size: contain;
-    background-repeat: no-repeat;
     background-image: url("img/mushroom.png");
+}
+
+.card-back-coin {
+    background-image: url("img/coin.png");
+}
+
+.card-back-chest {
+    background-image: url("img/chest.png");
+}
+
+.card-back-musicbox {
+    background-image: url("img/musicbox.png");
+}
+
+.card-back-frog {
+    background-image: url("img/frog.png");
+}
+
+.card-back-flower {
+    background-image: url("img/flower.png");
+}
+
+.card-back-box {
+    background-image: url("img/box.png");
+}
+
+.card-back-brain {
+    background-image: url("img/brain.png");
 }
