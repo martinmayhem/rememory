@@ -1,4 +1,4 @@
-const cards = document.querySelectorAll('.card');
+const cards = Array.from(document.querySelectorAll('.card'))
 
 let hasFlippedCard = false;
 let lockBoard = false;
@@ -14,9 +14,9 @@ function flipCard() {
         hasFlippedCard = true;
         firstCard = this;
         firstCard.classList.add('frozen');
-        if (Math.random() > 0.7) { //30% of the first flips it will shuffle all available cards
+        /*if (Math.random() > 0.7) { //30% of the first flips it will shuffle all available cards
             shuffle();
-        }
+        }*/
         return;
     }
 
@@ -62,53 +62,44 @@ function resetBoard() {
 }
 
 function shuffle() {
-
-    let shuffledCards = document.querySelectorAll('.frozen');
-    const shuffledCardsArray = Array.from(shuffledCards)
-    let flag = false;
+    var usedNumbers = new Array(17).fill(false);
     cards.forEach(card => {
-        if (!shuffledCardsArray.includes(card)) {
-
-            do {
-                let randomPos = Math.floor(Math.random() * 18);
-
-                if (shuffledCardsArray.length == 0){
-                    break;
-                }
-
-                shuffledCardsArray.forEach(shuffleCard => { //TODO: Fel sätt att få order
-                    shuffleCard.style.order != randomPos ? flag = true : flag = false;
-                    //TODO: när man inte har en position
-                })
-                if (flag) {
-                    break;
-                }
-            } while(false);
-
-            card.style.order = randomPos;
-            shuffledCardsArray.add(card);
+        if (card.classList.contains('frozen') || card.classList.contains('frozenTemporary')) {
+            return false;
         }
-    });
+        while (true) {
+            let randomPos = Math.floor(Math.random() * 18);
+            if(!cards[randomPos].classList.contains('frozen') || !cards[randomPos].classList.contains('frozenTemporary') || !usedNumbers[randomPos]) {
+                var currentOrder = card.style.order;
+                
+                cards[randomPos].style.order = card.style.order; 
+                card.style.order = currentOrder;
 
-    /*
-    cards.forEach(card => {
-        if (!card.classList.contains('frozen') || !card.classList.contains('frozenTemporary')) {
-            while(true) {
-                let randomPos = Math.floor(Math.random() * 18);
-                if (!frozenCards.includes(randomPos)) { //PROBLEM: Jämnför med positioner
-                    break;
-                }
+                card.classList.add('frozenTemporary');
+                cards[randomPos].classList.add('frozenTemporary');
+
+                usedNumbers[randomPos] = true;
+                break;
             }
-            //PROBLEM: Detta borde inte funka, jag måste lägga in dessa i frozenCards, eller döpa om till shuffledCards
-            card.style.order = randomPos;
-            shuffledCards.add(card);
         }
     });
-    */
-    
-    //shuffledCards = null;
+    cards.forEach(card => card.classList.remove('frozenTemporary'));
+  }
+
+  function shuffleFirstTime() {
+    var usedNumbers = new Array(17).fill(false);
+    cards.forEach(card => {
+        while (true) {
+            let randomPos = Math.floor(Math.random() * 18);
+            if(!usedNumbers[randomPos]) {
+                card.style.order = randomPos;
+                usedNumbers[randomPos] = true;
+                break;
+            }
+        }
+    });
   }
 
 
 cards.forEach(card => card.addEventListener('click', flipCard));
-shuffle(); // Shuffle in the beginning
+shuffleFirstTime(); // Shuffle in the beginning
