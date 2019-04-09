@@ -19,7 +19,7 @@ body {
     background-repeat: round;
 }
 
-.container {
+#container {
     min-width:800px;
     max-width:1200px;
     margin:0 auto;
@@ -46,7 +46,7 @@ body {
     margin: 1rem;
 }
 
-.card-container {
+#card-container {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -96,15 +96,24 @@ body {
     transform: rotateY( 180deg );
 }
 
-.card-back-0,
-.card-back-1,
-.card-back-2,
-.card-back-3,
-.card-back-4,
-.card-back-5,
-.card-back-6,
-.card-back-7,
-.card-back-8 {
+.card-0,
+.card-1,
+.card-2,
+.card-3,
+.card-4,
+.card-5,
+.card-6,
+.card-7,
+.card-8,
+.card-9,
+.card-10,
+.card-11,
+.card-12,
+.card-13,
+.card-14,
+.card-15,
+.card-16,
+.card-17, {
     margin:0 auto;
     margin-top: 3rem;
     height: 100%;
@@ -113,47 +122,47 @@ body {
     background-repeat: no-repeat;
 }
 
-.card-back-0,
-.card-back-9 {
+.card-0,
+.card-9 {
     background-image: url("img/0.png");
 }
 
-.card-back-1,
-.card-back-10 {
+.card-1,
+.card-10 {
     background-image: url("img/1.png");
 }
 
-.card-back-2,
-.card-back-11 {
+.card-2,
+.card-11 {
     background-image: url("img/2.png");
 }
 
-.card-back-3,
-.card-back-12 {
+.card-3,
+.card-12 {
     background-image: url("img/3.png");
 }
 
-.card-back-4,
-.card-back-13 {
+.card-4,
+.card-13 {
     background-image: url("img/4.png");
 }
 
-.card-back-5,
-.card-back-14 {
+.card-5,
+.card-14 {
     background-image: url("img/5.png");
 }
 
-.card-back-6,
-.card-back-15 {
+.card-6,
+.card-15 {
     background-image: url("img/6.png");
 }
 
-.card-back-7,
-.card-back-16 {
+.card-7,
+.card-16 {
     background-image: url("img/7.png");
 }
 
-.card-back-8,
-.card-back-17 {
+.card-8,
+.card-17 {
     background-image: url("img/8.png");
 }
