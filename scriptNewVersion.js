@@ -204,12 +204,26 @@ const formSubmit = function(){
         document.getElementById("input-button").disabled = false; //Make the button avaiable again
     }, 1000);
     resetTimer();
-    startTimer();
     showHighscore();
 };
 
 const showHighscore = function() {
+    document.getElementById("highscore-container").style.visibility = "visible" ;
+    document.getElementById("highscore-container").style.opacity = 1 ;
+
     var objects = JSON.parse(localStorage.getItem("savedData"));
+
+    //Sort highscore list
+    objects.sort(function(a,b) {
+        if (a.time > b.time) {
+            return 1;
+        } else if(a.time < b.time) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+
     objects.forEach(function(element){
         console.log(element.name);
         var highscoreItem = "<div class='highscore-item'>" +
@@ -220,7 +234,6 @@ const showHighscore = function() {
     });
 };
 
-showHighscore();
 //--------------------------- Timer related
 var timerDisplay = document.querySelector('#timer');
 var startTime;
@@ -286,11 +299,12 @@ function getShowTime(){
 }
 //--------------------------- Timer related end
 
-//Main loop start
+//Initialize
 shuffleCards(); //Shuffle all cards in the beginning
 drawCards(); //Redraw all the cards
 startTimer(); //Start timer when page is loaded
-console.log(localStorage.getItem("savedData"));
+
+//Check if localStorage is clean
 if (JSON.parse(localStorage.getItem("savedData")) == null) {
     console.log("no data found!");
     localStorage.setItem("savedData", JSON.stringify([]));
