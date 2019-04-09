@@ -1,25 +1,12 @@
-var card0  = {id: "card-0", type: "star", freeze: false, temporaryFreeze: false };
-var card1  = {id: "card-1", type: "box", freeze: false, temporaryFreeze: false };
-var card2  = {id: "card-2", type: "brain", freeze: false, temporaryFreeze: false };
-var card3  = {id: "card-3", type: "chest", freeze: false, temporaryFreeze: false };
-var card4  = {id: "card-4", type: "coin", freeze: false, temporaryFreeze: false };
-var card5  = {id: "card-5", type: "flower", freeze: false, temporaryFreeze: false };
-var card6  = {id: "card-6", type: "frog", freeze: false, temporaryFreeze: false };
-var card7  = {id: "card-7", type: "mushroom", freeze: false, temporaryFreeze: false };
-var card8  = {id: "card-8", type: "music", freeze: false, temporaryFreeze: false };
+//config
+//---------------------------------------------
+let chanceToShuffleOnFlip = 0.8; //20% of the times it shuffles
+let chanceToShuffleOnMatch = 0.5; //50% of the times it shuffles
+let musicVolume = 0; //0.1 should be standard
+let matchConstant = 22 //0 is standard, 22 if you want to debug
 
-var card9  = {id: "card-9", type: "star", freeze: false, temporaryFreeze: false };
-var card10  = {id: "card-10", type: "box", freeze: false, temporaryFreeze: false };
-var card11  = {id: "card-11", type: "brain", freeze: false, temporaryFreeze: false };
-var card12  = {id: "card-12", type: "chest", freeze: false, temporaryFreeze: false };
-var card13  = {id: "card-13", type: "coin", freeze: false, temporaryFreeze: false };
-var card14  = {id: "card-14", type: "flower", freeze: false, temporaryFreeze: false };
-var card15  = {id: "card-15", type: "frog", freeze: false, temporaryFreeze: false };
-var card16  = {id: "card-16", type: "mushroom", freeze: false, temporaryFreeze: false };
-var card17  = {id: "card-17", type: "music", freeze: false, temporaryFreeze: false };
 
-var cardsArray = [card0, card1, card2, card3, card4, card5, card6, card7, card8, card9, card10, card11, card12, card13, card14, card15, card16, card17 ];
-
+var cardsArray = [];
 let lockBoard = false;
 let hasFlippedCard = false;
 var firstCard  = {};
@@ -28,7 +15,9 @@ var secondCard  = {};
 var firstCardFlipSound = new Audio('sound/flipFirst.wav');
 var secondCardFlipSound = new Audio('sound/flipSecond.wav');
 var matchSound = new Audio('sound/match.wav');
-
+var music = new Audio('sound/music.mp3');
+music.loop = true;
+music.volume = musicVolume;
 const resetBoard = function() {
     hasFlippedCard = false;
     lockBoard = false;
@@ -36,7 +25,40 @@ const resetBoard = function() {
     secondCard = {};
 };
 
- const shuffleCards = function() {
+const resetCardArray = function() {
+    var card0  = {id: "card-0", type: "star", freeze: false, temporaryFreeze: false };
+    var card1  = {id: "card-1", type: "box", freeze: false, temporaryFreeze: false };
+    var card2  = {id: "card-2", type: "leaf", freeze: false, temporaryFreeze: false };
+    var card3  = {id: "card-3", type: "chest", freeze: false, temporaryFreeze: false };
+    var card4  = {id: "card-4", type: "coin", freeze: false, temporaryFreeze: false };
+    var card5  = {id: "card-5", type: "flower", freeze: false, temporaryFreeze: false };
+    var card6  = {id: "card-6", type: "frog", freeze: false, temporaryFreeze: false };
+    var card7  = {id: "card-7", type: "mushroom", freeze: false, temporaryFreeze: false };
+    var card8  = {id: "card-8", type: "music", freeze: false, temporaryFreeze: false };
+
+    var card9  = {id: "card-9", type: "star", freeze: false, temporaryFreeze: false };
+    var card10  = {id: "card-10", type: "box", freeze: false, temporaryFreeze: false };
+    var card11  = {id: "card-11", type: "leaf", freeze: false, temporaryFreeze: false };
+    var card12  = {id: "card-12", type: "chest", freeze: false, temporaryFreeze: false };
+    var card13  = {id: "card-13", type: "coin", freeze: false, temporaryFreeze: false };
+    var card14  = {id: "card-14", type: "flower", freeze: false, temporaryFreeze: false };
+    var card15  = {id: "card-15", type: "frog", freeze: false, temporaryFreeze: false };
+    var card16  = {id: "card-16", type: "mushroom", freeze: false, temporaryFreeze: false };
+    var card17  = {id: "card-17", type: "music", freeze: false, temporaryFreeze: false };
+
+    var card18  = {id: "card-18", type: "wing", freeze: false, temporaryFreeze: false };
+    var card19  = {id: "card-19", type: "wing", freeze: false, temporaryFreeze: false };
+
+    var card20  = {id: "card-20", type: "hammer", freeze: false, temporaryFreeze: false };
+    var card21  = {id: "card-21", type: "hammer", freeze: false, temporaryFreeze: false };
+
+    var card22  = {id: "card-22", type: "skull", freeze: false, temporaryFreeze: false };
+    var card23  = {id: "card-23", type: "skull", freeze: false, temporaryFreeze: false };
+
+    cardsArray = [card0, card1, card2, card3, card4, card5, card6, card7, card8, card9, card10, card11, card12, card13, card14, card15, card16, card17, card18, card19, card20, card21, card22, card23 ];
+};
+
+const shuffleCards = function() {
     var tempArray = [];
     cardsArray.forEach(function(element) {
         if ( !element.freeze && !element.temporaryFreeze ) {
@@ -76,9 +98,8 @@ const flipCard = function() {
         firstCard = currentCard;
         currentCard.temporaryFreeze = true;
         firstCardFlipSound.play();
-        if (Math.random() > 1) { //The value should be 0.7 30% of the first flips it will shuffle all available cards TODO: STÄLL OM DENNA
+        if (Math.random() > chanceToShuffleOnFlip) { //The value should be 0.7 30% of the first flips it will shuffle all available cards
             lockBoard = true;
-            console.log("RANDOM!");
             setTimeout(() => {
                 shuffleCards(); // After every succesfull turn, it will shuffle the remaining of the cards
                 drawCards(); //Redraw all cards
@@ -97,7 +118,7 @@ const flipCard = function() {
 };
 
 const disableCards = function() {
-    console.log("it was a match!");
+    //We have a MATCH!!!
     matchSound.play();
 
     firstCard.freeze = true;
@@ -109,7 +130,9 @@ const disableCards = function() {
 
     setTimeout(() => {
         resetBoard(); //Reset all variables
-        shuffleCards(); // After every succesfull turn, it will shuffle the remaining of the cards
+        if (Math.random() > chanceToShuffleOnMatch) { //Maybe shuffle
+            shuffleCards();
+        }
         drawCards(); //Redraw all cards
     }, 200);
 }
@@ -126,8 +149,7 @@ const flipCardBack = function(card) {
 };
 
 const unflipCards = function() {
-    console.log("no match!");
-
+    //NO Match!
     firstCard.temporaryFreeze = false;
     secondCard.temporaryFreeze = false;
     lockBoard = true;
@@ -136,17 +158,18 @@ const unflipCards = function() {
         flipCardBack(firstCard);
         flipCardBack(secondCard);
         resetBoard(); //Reset all variables
-    }, 1000);
+    }, 800);
 }
 
 const checkIfDone = function(){
     var f = cardsArray.filter((f) => f.freeze == false);
-    if (f.length == 16) { //This value should be 0. If it is 16, you will win after the fist pair.
+    if (f.length == matchConstant) {
+        //WE HAVE A WINNER!!!!
         pauseTimer();
-        console.log("Winner!")
         document.getElementById("modal").style.visibility = "visible" ;
         document.getElementById("modal").style.opacity = 1 ;
-        document.getElementById("modal-text").innerHTML = "total time: " + currentTime;
+        document.getElementById("modal-text").innerHTML = "Total time: " + currentTime;
+        music.pause();
     }
 }
 
@@ -195,7 +218,6 @@ const formSubmit = function(){
                 };
     objects.push(newEntry);
     localStorage.setItem("savedData", JSON.stringify(objects));
-    console.log(localStorage.savedData);
 
     //Hide modal
     document.getElementById("modal").style.visibility = "hidden" ;
@@ -205,6 +227,7 @@ const formSubmit = function(){
     }, 1000);
     resetTimer();
     showHighscore();
+    document.getElementById("input-name").value = ""; //Clear input field
 };
 
 const showHighscore = function() {
@@ -225,13 +248,55 @@ const showHighscore = function() {
     });
 
     objects.forEach(function(element){
-        console.log(element.name);
         var highscoreItem = "<div class='highscore-item'>" +
         "<div class='highscore-name'>" + element.name + "</div>" +
         "<div class='highscore-time'>" + element.time + "</div>" +
         "</div>";
         document.getElementById("highscore-list").innerHTML += highscoreItem;
     });
+};
+const animateCurtainDown = function() {
+    document.getElementById("curtain-container").classList.add("translate-down");
+    document.getElementById("curtain-container").classList.remove("translate-up");
+};
+
+const animateCurtainUp = function() {
+    document.getElementById("curtain-container").classList.add("translate-up");
+    document.getElementById("curtain-container").classList.remove("translate-down");
+};
+
+
+const startGame = function() {
+    animateCurtainDown();
+    music.play();
+    lockBoard = true;
+    resetCardArray();
+    shuffleCards(); //Shuffle all cards in the beginning
+    drawCards(); //Redraw all the cards
+    setTimeout(() => {
+        startTimer();
+        animateCurtainUp();
+        document.getElementById("startscreen-container").style.visibility = "hidden" ;
+        document.getElementById("startscreen-container").style.opacity = 0;
+        lockBoard = false;
+    }, 2000);
+};
+
+const restartGame = function() {
+    animateCurtainDown();
+    setTimeout(() => {
+        document.getElementById("startscreen-container").style.visibility = "visible";
+        document.getElementById("startscreen-container").style.opacity = 1;
+        document.getElementById("highscore-container").style.visibility = "hidden" ;
+        document.getElementById("highscore-container").style.opacity = 0;
+
+        resetTimer();
+        resetBoard();
+        resetCardArray();
+        shuffleCards();
+        drawCards();
+        animateCurtainUp();
+    }, 2000);
 };
 
 //--------------------------- Timer related
@@ -299,26 +364,18 @@ function getShowTime(){
 }
 //--------------------------- Timer related end
 
-//Initialize
-shuffleCards(); //Shuffle all cards in the beginning
-drawCards(); //Redraw all the cards
-startTimer(); //Start timer when page is loaded
 //Check if localStorage is clean
 if (JSON.parse(localStorage.getItem("savedData")) == null) {
-    console.log("no data found!");
+    console.log("No data found in localStorage!");
     localStorage.setItem("savedData", JSON.stringify([]));
 }
 
+animateCurtainUp();
+
 //TODO: NEW SOUNDS
-//TODO: ADD music
-//TODO: ADD Start menu
+//TODO: Snygga till curtain
+//TODO: Curtain Sounds
+//TODO: Win sound
 //TODO: Polish CSS
-//TODO: Remove prints
-//TODO: ADD return to start menu from highscore
 //TODO: FIX ADMIN with reset button
-//TODO: Add easter egg KONAMI CODE
-//TODO: ADD MORE CARDS
-
-
-
-
+//TODO: Hover effect on buttons, loads of colors
