@@ -22,15 +22,14 @@ var cardsArray = [card0, card1, card2, card3, card4, card5, card6, card7, card8,
 
 let lockBoard = false;
 let hasFlippedCard = false;
-let firstCardId, secondCardId, firstCardType, secondCardType;
+var firstCard  = {};
+var secondCard  = {};
 
 const resetBoard = function() {
     hasFlippedCard = false;
     lockBoard = false;
-    firstCardId = null;
-    secondCardId = null;
-    firstCardType = null;
-    secondCardType = null;
+    firstCard = {};
+    secondCard = {};
 };
 
  const shuffleCards = function() {
@@ -62,60 +61,59 @@ const shuffleArray = function(a) {
 
 const flipCard = function() {
     if (lockBoard) return;
-    var currentCard = this.firstElementChild.firstElementChild.className;
-    if (currentCard === firstCardId) return;
-    this.classList.add('action-flip-card')
+    var currentCard = getCardObjectFromDom(this);
+
+    if (currentCard.id === firstCard.id) return;
+    this.classList.add('action-flip-card');
+
     if (!hasFlippedCard) {
         // first click
         hasFlippedCard = true;
-        firstCardId = currentCard;
-        var foundIndex = cardsArray.findIndex(x => x.id == currentCard);
-        cardsArray[foundIndex].temporaryFreeze = true;
-        firstCardType = cardsArray[foundIndex].type;
+        firstCard = currentCard;
+        currentCard.temporaryFreeze = true;
         /*if (Math.random() > 0.7) { //30% of the first flips it will shuffle all available cards
             shuffle();
         }*/
-        console.log(firstCardType);
+        console.log(firstCard.type);
         return;
     }
 
     // second click
-    secondCardId = currentCard;
-    var foundIndex = cardsArray.findIndex(x => x.id == currentCard);
-    cardsArray[foundIndex].temporaryFreeze = true;
-    secondCardType = cardsArray[foundIndex].type;
-    console.log(secondCardType);
+    secondCard = currentCard;
+    currentCard.temporaryFreeze = true;
+    console.log(secondCard.type);
     checkForMatch();
     return;
 };
 
 const disableCards = function() {
-    console.log("it was a match");
+    console.log("it was a match!");
 
-    var foundIndexFirstCard = cardsArray.findIndex(x => x.id == firstCardId);
-    cardsArray[foundIndexFirstCard].freeze = true;
-    cardsArray[foundIndexFirstCard].temporaryFreeze = false;
+    firstCard.freeze = true;
+    firstCard.temporaryFreeze = false;
 
-    var foundIndexSecondCard = cardsArray.findIndex(x => x.id == secondCardId);
-    cardsArray[foundIndexSecondCard].freeze = true;
-    cardsArray[foundIndexSecondCard].temporaryFreeze = false;
+    secondCard.freeze = true;
+    secondCard.temporaryFreeze = false;
 
     //firstCard.removeEventListener('click', flipCard);
     //secondCard.removeEventListener('click', flipCard);
 
     resetBoard(); //Reset all variables
     shuffleCards(); // After every succesfull turn, it will shuffle the remaining of the cards
-    drawCards(); //Redraw them to the new order
+    drawCards(); //Redraw all cards
+}
+
+const getCardObjectFromDom = function(element) {
+    var currentCard = element.firstElementChild.firstElementChild.className;
+    var foundIndex = cardsArray.findIndex(x => x.id == currentCard);
+    return cardsArray[foundIndex];
 }
 
 const unflipCards = function() {
-    console.log("unflipCards");
+    console.log("no pair!");
 
-    var foundIndexFirstCard = cardsArray.findIndex(x => x.id == firstCardId);
-    cardsArray[foundIndexFirstCard].temporaryFreeze = false;
-
-    var foundIndexSecondCard = cardsArray.findIndex(x => x.id == secondCardId);
-    cardsArray[foundIndexSecondCard].temporaryFreeze = false;
+    firstCard.temporaryFreeze = false;
+    secondCard.temporaryFreeze = false;
     //lockBoard = true;
 
     //setTimeout(() => {
@@ -133,13 +131,12 @@ const checkIfDone = function(){
 }
 
 const checkForMatch = function() {
-    let isMatch = firstCardType == secondCardType;
+    let isMatch = firstCard.type == secondCard.type;
     isMatch ? disableCards() : unflipCards();
     checkIfDone();
 }
 
 const drawCards = function() {
-
     var allCurrentCardsInDom = document.getElementsByClassName('card');
     while(allCurrentCardsInDom[0]) {
         allCurrentCardsInDom[0].parentNode.removeChild(allCurrentCardsInDom[0]);
@@ -165,8 +162,8 @@ const drawCards = function() {
     });
 };
 
-shuffleCards();
-drawCards();
+shuffleCards(); //Shuffle all cards in the beginning
+drawCards(); //Redraw all the cards
 
 
 
