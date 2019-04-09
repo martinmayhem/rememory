@@ -11,8 +11,9 @@ body {
     display: block;
 }
 
-#modal {
-  visibility: hidden;
+#modal,
+#highscore-container {
+  visibility: visible;
   position: fixed;
   z-index: 100;
   top: 0;
@@ -21,8 +22,25 @@ body {
   height: 100%;
   background: rgba(0, 0, 0, 0.8);
   overflow: hidden;
-  opacity:0;
+  opacity:1;
   transition:visibility 0.3s linear,opacity 0.3s linear;
+}
+
+#highscore-container {
+  z-index: 101;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+#highscore-content{
+  margin:0 auto;
+  padding: 3rem;
+  width: 40rem;
+  display: block;
+  text-align: center;
+  font-family: "pixelFont";
+  font-size: 4rem;
+  color: #FFE400;
+  vertical-align: middle;
 }
 
 #modal-content{
@@ -36,14 +54,20 @@ body {
   border-radius: 1rem;
   display: block;
   background-color: black;
+
 }
 
-#modal-text {
+#modal-text,
+#highscore-list {
   text-align: center;
   font-family: "pixelFont";
-  font-size: 4rem;
+  font-size: 2rem;
   color: white;
   vertical-align: middle;
+}
+
+.highscore-item {
+  margin: 2rem;
 }
 
 #container {

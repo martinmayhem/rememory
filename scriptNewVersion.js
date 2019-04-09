@@ -205,8 +205,22 @@ const formSubmit = function(){
     }, 1000);
     resetTimer();
     startTimer();
-}
+    showHighscore();
+};
 
+const showHighscore = function() {
+    var objects = JSON.parse(localStorage.getItem("savedData"));
+    objects.forEach(function(element){
+        console.log(element.name);
+        var highscoreItem = "<div class='highscore-item'>" +
+        "<div class='highscore-name'>" + element.name + "</div>" +
+        "<div class='highscore-time'>" + element.time + "</div>" +
+        "</div>";
+        document.getElementById("highscore-list").innerHTML += highscoreItem;
+    });
+};
+
+showHighscore();
 //--------------------------- Timer related
 var timerDisplay = document.querySelector('#timer');
 var startTime;
