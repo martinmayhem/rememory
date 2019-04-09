@@ -25,6 +25,10 @@ let hasFlippedCard = false;
 var firstCard  = {};
 var secondCard  = {};
 
+var firstCardFlipSound = new Audio('sounds/flipFirst.wav');
+var secondCardFlipSound = new Audio('sounds/flipSecond.wav');
+var matchSound = new Audio('sounds/match.wav');
+
 const resetBoard = function() {
     hasFlippedCard = false;
     lockBoard = false;
@@ -71,63 +75,76 @@ const flipCard = function() {
         hasFlippedCard = true;
         firstCard = currentCard;
         currentCard.temporaryFreeze = true;
-        /*if (Math.random() > 0.7) { //30% of the first flips it will shuffle all available cards
-            shuffle();
-        }*/
-        console.log(firstCard.type);
+        firstCardFlipSound.play();
+        if (Math.random() > 0.7) { //30% of the first flips it will shuffle all available cards
+            lockBoard = true;
+            console.log("RANDOM!");
+            setTimeout(() => {
+                shuffleCards(); // After every succesfull turn, it will shuffle the remaining of the cards
+                drawCards(); //Redraw all cards
+                lockBoard = false;
+            }, 200);
+        }
         return;
     }
 
     // second click
     secondCard = currentCard;
     currentCard.temporaryFreeze = true;
-    console.log(secondCard.type);
+    secondCardFlipSound.play();
     checkForMatch();
     return;
 };
 
 const disableCards = function() {
     console.log("it was a match!");
+    matchSound.play();
 
     firstCard.freeze = true;
     firstCard.temporaryFreeze = false;
 
     secondCard.freeze = true;
     secondCard.temporaryFreeze = false;
+    lockBoard = true;
 
-    //firstCard.removeEventListener('click', flipCard);
-    //secondCard.removeEventListener('click', flipCard);
-
-    resetBoard(); //Reset all variables
-    shuffleCards(); // After every succesfull turn, it will shuffle the remaining of the cards
-    drawCards(); //Redraw all cards
+    setTimeout(() => {
+        resetBoard(); //Reset all variables
+        shuffleCards(); // After every succesfull turn, it will shuffle the remaining of the cards
+        drawCards(); //Redraw all cards
+    }, 200);
 }
 
 const getCardObjectFromDom = function(element) {
-    var currentCard = element.firstElementChild.firstElementChild.className;
+    var currentCard = element.firstElementChild.classList[0];
     var foundIndex = cardsArray.findIndex(x => x.id == currentCard);
     return cardsArray[foundIndex];
 }
 
+const flipCardBack = function(card) {
+    var cardDom = document.getElementsByClassName(card.id)[0].parentNode;
+    cardDom.classList.remove('action-flip-card');
+};
+
 const unflipCards = function() {
-    console.log("no pair!");
+    console.log("no match!");
 
     firstCard.temporaryFreeze = false;
     secondCard.temporaryFreeze = false;
-    //lockBoard = true;
+    lockBoard = true;
 
-    //setTimeout(() => {
-    //  firstCard.classList.remove('action-flip-card');
-    //  secondCard.classList.remove('action-flip-card');
-    //  firstCard.classList.remove('frozen');
-    //  secondCard.classList.remove('frozen');
-    //  resetBoard();
-    //}, 1000);
-    resetBoard(); //Reset all variables
+    setTimeout(() => {
+        flipCardBack(firstCard);
+        flipCardBack(secondCard);
+        resetBoard(); //Reset all variables
+    }, 1000);
 }
 
 const checkIfDone = function(){
-    //TODO:check if match is done.
+    var f = cardsArray.filter((f) => f.freeze == false);
+    if (f.length == 0) {
+     console.log("Winner!")
+    }
+
 }
 
 const checkForMatch = function() {
@@ -149,15 +166,17 @@ const drawCards = function() {
         cardFront.className = 'card-front';
 
         var cardBack = document.createElement('div')
-        cardBack.className = 'card-back';
+        cardBack.classList.add(element.id);
+        cardBack.classList.add("card-back");
 
-        var cardBackObject = document.createElement('div')
-        cardBackObject.className = element.id;
-
-        cardBack.appendChild(cardBackObject);
         cardContainer.appendChild(cardBack);
         cardContainer.appendChild(cardFront);
         cardContainer.addEventListener('click', flipCard);
+
+        if (element.freeze || element.temporaryFreeze) {
+            cardContainer.classList.add("action-flip-card");
+        }
+
         document.getElementById("card-container").appendChild(cardContainer);
     });
 };
