@@ -76,7 +76,7 @@ const flipCard = function() {
         firstCard = currentCard;
         currentCard.temporaryFreeze = true;
         firstCardFlipSound.play();
-        if (Math.random() > 1) { //30% of the first flips it will shuffle all available cards TODO: STÄLL OM DENNA
+        if (Math.random() > 1) { //The value should be 0.7 30% of the first flips it will shuffle all available cards TODO: STÄLL OM DENNA
             lockBoard = true;
             console.log("RANDOM!");
             setTimeout(() => {
@@ -141,7 +141,7 @@ const unflipCards = function() {
 
 const checkIfDone = function(){
     var f = cardsArray.filter((f) => f.freeze == false);
-    if (f.length == 16) {
+    if (f.length == 16) { //This value should be 0. If it is 16, you will win after the fist pair.
         pauseTimer();
         console.log("Winner!")
         document.getElementById("modal").style.visibility = "visible" ;
@@ -197,7 +197,7 @@ const formSubmit = function(){
     localStorage.setItem("savedData", JSON.stringify(objects));
     console.log(localStorage.savedData);
 
-    //Hide the modal
+    //Hide modal
     document.getElementById("modal").style.visibility = "hidden" ;
     document.getElementById("modal").style.opacity = 0 ;
     setTimeout(() => {
@@ -303,15 +303,21 @@ function getShowTime(){
 shuffleCards(); //Shuffle all cards in the beginning
 drawCards(); //Redraw all the cards
 startTimer(); //Start timer when page is loaded
-
 //Check if localStorage is clean
 if (JSON.parse(localStorage.getItem("savedData")) == null) {
     console.log("no data found!");
     localStorage.setItem("savedData", JSON.stringify([]));
 }
 
-
-
+//TODO: NEW SOUNDS
+//TODO: ADD music
+//TODO: ADD Start menu
+//TODO: Polish CSS
+//TODO: Remove prints
+//TODO: ADD return to start menu from highscore
+//TODO: FIX ADMIN with reset button
+//TODO: Add easter egg KONAMI CODE
+//TODO: ADD MORE CARDS
 
 
 
