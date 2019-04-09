@@ -144,6 +144,8 @@ const checkIfDone = function(){
     if (f.length == 0) {
         pauseTimer();
         console.log("Winner!")
+        document.getElementById("modal").style.visibility = "visible" ;
+        document.getElementById("modal-text").innerHTML = "total time: " + currentTime;
     }
 }
 
@@ -190,6 +192,7 @@ var tInterval;
 var savedTime;
 var paused = false;
 var running = false;
+var currentTime;
 
 function startTimer(){
   if(!running){
@@ -239,7 +242,9 @@ function getShowTime(){
   minutes = (minutes < 10) ? "0" + minutes : minutes;
   seconds = (seconds < 10) ? "0" + seconds : seconds;
   milliseconds = (milliseconds < 100) ? (milliseconds < 10) ? "00" + milliseconds : "0" + milliseconds : milliseconds;
-  timerDisplay.innerHTML = hours + ':' + minutes + ':' + seconds;
+  currentTime = hours + ':' + minutes + ':' + seconds;
+  timerDisplay.innerHTML = currentTime;
+
 }
 //--------------------------- Timer related end
 
