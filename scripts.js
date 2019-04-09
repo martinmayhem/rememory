@@ -71,7 +71,7 @@ function shuffle() {
             let randomPos = Math.floor(Math.random() * 18);
             if(!cards[randomPos].classList.contains('frozen') || !cards[randomPos].classList.contains('frozenTemporary') || !usedNumbers[randomPos]) {
                 var currentOrder = card.style.order;
-                
+
                 cards[randomPos].style.order = card.style.order; 
                 card.style.order = currentOrder;
 

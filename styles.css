@@ -20,8 +20,8 @@ body {
 }
 
 .container {
-    min-width:800px; 
-    max-width:1200px; 
+    min-width:800px;
+    max-width:1200px;
     margin:0 auto;
     margin-top: 2rem;
 }
@@ -67,10 +67,7 @@ body {
       -webkit-box-shadow: 0px 8px 24px -11px rgba(0,0,0,0.51);
       -moz-box-shadow: 0px 8px 24px -11px rgba(0,0,0,0.51);
        box-shadow: 0px 8px 24px -11px rgba(0,0,0,0.51);
-
   }
-
-
 
   .action-flip-card {
     transform: rotateY(180deg);
@@ -99,15 +96,15 @@ body {
     transform: rotateY( 180deg );
 }
 
-.card-back-star,
-.card-back-mushroom,
-.card-back-coin,
-.card-back-chest,
-.card-back-musicbox,
-.card-back-frog,
-.card-back-flower,
-.card-back-box,
-.card-back-brain {
+.card-back-0,
+.card-back-1,
+.card-back-2,
+.card-back-3,
+.card-back-4,
+.card-back-5,
+.card-back-6,
+.card-back-7,
+.card-back-8 {
     margin:0 auto;
     margin-top: 3rem;
     height: 100%;
@@ -116,38 +113,47 @@ body {
     background-repeat: no-repeat;
 }
 
-.card-back-star {
-    background-image: url("img/stars.png");
+.card-back-0,
+.card-back-9 {
+    background-image: url("img/0.png");
 }
 
-.card-back-mushroom {
-    background-image: url("img/mushroom.png");
+.card-back-1,
+.card-back-10 {
+    background-image: url("img/1.png");
 }
 
-.card-back-coin {
-    background-image: url("img/coin.png");
+.card-back-2,
+.card-back-11 {
+    background-image: url("img/2.png");
 }
 
-.card-back-chest {
-    background-image: url("img/chest.png");
+.card-back-3,
+.card-back-12 {
+    background-image: url("img/3.png");
 }
 
-.card-back-musicbox {
-    background-image: url("img/musicbox.png");
+.card-back-4,
+.card-back-13 {
+    background-image: url("img/4.png");
 }
 
-.card-back-frog {
-    background-image: url("img/frog.png");
+.card-back-5,
+.card-back-14 {
+    background-image: url("img/5.png");
 }
 
-.card-back-flower {
-    background-image: url("img/flower.png");
+.card-back-6,
+.card-back-15 {
+    background-image: url("img/6.png");
 }
 
-.card-back-box {
-    background-image: url("img/box.png");
+.card-back-7,
+.card-back-16 {
+    background-image: url("img/7.png");
 }
 
-.card-back-brain {
-    background-image: url("img/brain.png");
+.card-back-8,
+.card-back-17 {
+    background-image: url("img/8.png");
 }
