@@ -76,7 +76,7 @@ const flipCard = function() {
         firstCard = currentCard;
         currentCard.temporaryFreeze = true;
         firstCardFlipSound.play();
-        if (Math.random() > 0.7) { //30% of the first flips it will shuffle all available cards
+        if (Math.random() > 1) { //30% of the first flips it will shuffle all available cards TODO: STÄLL OM DENNA
             lockBoard = true;
             console.log("RANDOM!");
             setTimeout(() => {
@@ -141,10 +141,11 @@ const unflipCards = function() {
 
 const checkIfDone = function(){
     var f = cardsArray.filter((f) => f.freeze == false);
-    if (f.length == 0) {
+    if (f.length == 16) {
         pauseTimer();
         console.log("Winner!")
         document.getElementById("modal").style.visibility = "visible" ;
+        document.getElementById("modal").style.opacity = 1 ;
         document.getElementById("modal-text").innerHTML = "total time: " + currentTime;
     }
 }
@@ -182,6 +183,29 @@ const drawCards = function() {
         document.getElementById("card-container").appendChild(cardContainer);
     });
 };
+
+const formSubmit = function(){
+    document.getElementById("input-button").disabled = true; //To prevent people for spamming the button
+    var currentName = document.getElementById("input-name").value;
+
+    var objects = JSON.parse(localStorage.getItem("savedData"));
+    var newEntry = {
+                    "name": currentName,
+                    "time": currentTime
+                };
+    objects.push(newEntry);
+    localStorage.setItem("savedData", JSON.stringify(objects));
+    console.log(localStorage.savedData);
+
+    //Hide the modal
+    document.getElementById("modal").style.visibility = "hidden" ;
+    document.getElementById("modal").style.opacity = 0 ;
+    setTimeout(() => {
+        document.getElementById("input-button").disabled = false; //Make the button avaiable again
+    }, 1000);
+    resetTimer();
+    startTimer();
+}
 
 //--------------------------- Timer related
 var timerDisplay = document.querySelector('#timer');
@@ -252,6 +276,11 @@ function getShowTime(){
 shuffleCards(); //Shuffle all cards in the beginning
 drawCards(); //Redraw all the cards
 startTimer(); //Start timer when page is loaded
+console.log(localStorage.getItem("savedData"));
+if (JSON.parse(localStorage.getItem("savedData")) == null) {
+    console.log("no data found!");
+    localStorage.setItem("savedData", JSON.stringify([]));
+}
 
 
 
