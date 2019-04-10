@@ -304,6 +304,7 @@ input[type=button]:focus {
   color: white;
   margin: 1.5rem;
   text-align: center;
+  text-rendering: auto;
 }
 
 #card-container {
