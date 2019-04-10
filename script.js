@@ -2,7 +2,7 @@
 let chanceToShuffleOnFlip = 0.8; //20% of the times on flip it shuffles
 let chanceToShuffleOnMatch = 0.6; //40% of the times on matches it shuffles
 let musicVolume = 0.5; //0.1 should be standard
-let soundVolume = 0.7;
+let soundVolume = 0.4;
 let matchConstant = 0 //0 is standard, 22 if you want to debug
 //config end
 //---------------------------------------------
@@ -19,7 +19,8 @@ var firstCardFlipSound = new Audio('sound/flipper.wav');
 var secondCardFlipSound = new Audio('sound/flipper2.wav');
 var matchSound = new Audio('sound/match.wav');
 var winnerSound = new Audio('sound/winner.wav');
-var music = new Audio('sound/music.mp3');
+var click = new Audio('sound/click.wav');
+var music = new Audio('sound/music2.mp3');
 music.loop = true;
 music.volume = musicVolume;
 const resetBoard = function() {
@@ -234,13 +235,16 @@ const drawCards = function() {
 };
 
 const formSubmit = function(){
+    click.play();
     document.getElementById("input-button").disabled = true; //To prevent people for spamming the button
     var currentName = document.getElementById("input-name").value;
+    var currentEmail = document.getElementById("input-email").value;
 
     var objects = JSON.parse(localStorage.getItem("savedData"));
     var newEntry = {
                     "name": currentName,
-                    "time": currentTime
+                    "time": currentTime,
+                    "email": currentEmail
                 };
     objects.push(newEntry);
     localStorage.setItem("savedData", JSON.stringify(objects));
@@ -255,6 +259,7 @@ const formSubmit = function(){
     showHighscore();
     removeCardsFromDom();
     document.getElementById("input-name").value = ""; //Clear input field
+    document.getElementById("input-email").value = ""; //Clear email field
 };
 
 const showHighscore = function() {
@@ -296,13 +301,16 @@ const animateCurtainUp = function() {
 
 
 const startGame = function() {
+    click.play();
     animateCurtainDown();
-    music.play();
+
     lockBoard = true;
     resetCardArray();
     shuffleCards(); //Shuffle all cards in the beginning
     drawCards(); //Redraw all the cards
     setTimeout(() => {
+        document.getElementById("container").style.visibility = "visible";
+        music.play();
         startTimer();
         animateCurtainUp();
         document.getElementById("startscreen-container").style.visibility = "hidden" ;
@@ -312,6 +320,7 @@ const startGame = function() {
 };
 
 const restartGame = function() {
+    click.play();
     animateCurtainDown();
     setTimeout(() => {
         document.getElementById("startscreen-container").style.visibility = "visible";
@@ -391,6 +400,7 @@ const muteSounds = function(flag) {
         secondCardFlipSound.volume = 0;
         matchSound.volume = 0;
         winnerSound.volume = 0;
+        click.volume = 0;
         music.volume = 0;
     } else {
         document.getElementById("mute-button").classList.add("mute-button-not-pressed");
@@ -399,6 +409,7 @@ const muteSounds = function(flag) {
         secondCardFlipSound.volume = soundVolume;
         matchSound.volume = soundVolume;
         winnerSound.volume = soundVolume;
+        click.volume = soundVolume;
         music.volume = musicVolume;
     }
 };
@@ -412,6 +423,26 @@ const clearHighscore = function(flag) {
     }
 
 }
+
+const showHighscoreInConsole = function() {
+    var objects = JSON.parse(localStorage.getItem("savedData"));
+
+    //Sort highscore list
+    objects.sort(function(a,b) {
+        if (a.time > b.time) {
+            return 1;
+        } else if(a.time < b.time) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+
+    objects.forEach(function(element, index){
+        var realIndex = index+1;
+        console.log(realIndex + ". " + element.name + " | " + element.email + " | " + element.time);
+    });
+};
 
 //function end
 //---------------------------------------------
@@ -431,11 +462,7 @@ document.getElementById("mute-button").addEventListener("click", function(){
     muteSound ? muteSounds(true) : muteSounds(false);
 });
 
+muteSounds(false);
+
 //init end
 //---------------------------------------------
-
-
-
-//TODO: Hur ska man identifiera sig, typ email? två fält i form?
-//TODO: FIX ADMIN with reset button
-//Annan musik
