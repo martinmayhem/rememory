@@ -169,6 +169,7 @@ const checkIfDone = function(){
         document.getElementById("modal").style.visibility = "visible" ;
         document.getElementById("modal").style.opacity = 1 ;
         document.getElementById("modal-text").innerHTML = currentTime;
+        removeCardsFromDom();
         music.pause();
     }
 }
@@ -177,13 +178,17 @@ const checkForMatch = function() {
     let isMatch = firstCard.type == secondCard.type;
     isMatch ? disableCards() : unflipCards();
     checkIfDone();
-}
+};
 
-const drawCards = function() {
+const removeCardsFromDom = function() {
     var allCurrentCardsInDom = document.getElementsByClassName('card');
     while(allCurrentCardsInDom[0]) {
         allCurrentCardsInDom[0].parentNode.removeChild(allCurrentCardsInDom[0]);
     };
+};
+
+const drawCards = function() {
+    removeCardsFromDom();
     cardsArray.forEach(function(element) {
     var cardContainer = document.createElement('div')
         cardContainer.className = 'card';
@@ -227,6 +232,7 @@ const formSubmit = function(){
     }, 1000);
     resetTimer();
     showHighscore();
+    removeCardsFromDom();
     document.getElementById("input-name").value = ""; //Clear input field
 };
 
@@ -280,7 +286,7 @@ const startGame = function() {
         document.getElementById("startscreen-container").style.visibility = "hidden" ;
         document.getElementById("startscreen-container").style.opacity = 0;
         lockBoard = false;
-    }, 2000);
+    }, 3000);
 };
 
 const restartGame = function() {
@@ -297,7 +303,7 @@ const restartGame = function() {
         shuffleCards();
         drawCards();
         animateCurtainUp();
-    }, 2000);
+    }, 3000);
 };
 
 //--------------------------- Timer related
@@ -373,11 +379,9 @@ if (JSON.parse(localStorage.getItem("savedData")) == null) {
 
 animateCurtainUp();
 
-//TODO: Hur ska man identifiera sig, typ email?
+//TODO: Hur ska man identifiera sig, typ email? två fält i form?
 //TODO: NEW SOUNDS
-//TODO: Snygga till curtain
 //TODO: Curtain Sounds
 //TODO: Win sound
-//TODO: Polish CSS
+//TODO: Snygga till kod
 //TODO: FIX ADMIN with reset button
-//TODO: Hover effect on buttons, loads of colors
