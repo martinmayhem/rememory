@@ -8,18 +8,21 @@
   <body>
     <div id="modal">
       <div id="modal-content">
-        <div id="modal-text">Total time:</div>
+        <div id="modal-header">CONGLATURATION!!!</div>
+        <div id="modal-header-text">YOU HAVE COMPLETED A GREAT GAME. </br> NOW GO AND REST OUR HERO!</div>
+        <div id="modal-text-header">Total time:</div>
+        <div id="modal-text"></div>
         <div id="modal-form">
           <form class="form" action="" method="get" name="highscoreForm">
-              <input id="input-name" class="form-input" type="text" name="" placeholder="Write name here..."><br>
-            <input id="input-button" type="button" onclick="formSubmit()" value="Submit">
+              <input id="input-name" maxlength="25" class="form-input" type="text" name="" placeholder="WRITE NAME HERE..."><br>
+            <input id="input-button" type="button" onclick="formSubmit()" value="SUBMIT">
           </form>
         </div>
       </div>
     </div>
     <div id="highscore-container">
-      <button class="start-button" onclick="restartGame()">Restart game</button> 
-      <div id="highscore-content">Hi(Q)score
+      <button class="start-button" onclick="restartGame()">RESTART GAME</button>
+      <div id="highscore-content">Hi(Q)SCORE
        <div id="highscore-list">
        </div>
       </div>
@@ -28,17 +31,17 @@
       <div id="startscreen-content">
         <div id="startscreen-image"></div>
         <div id="startscreen-text">
-            <button class="start-button" onclick="startGame()">Press to Start</button> 
+            <button class="start-button" onclick="startGame()">PRESS TO START</button>
         </div>
       </div>
     </div>
     <div id="curtain-container">
-     
+
     </div>
     <div id="container">
       <div id="logo-container"></div>
-      <div id="card-container"></div>
       <div id="timer"></div>
+      <div id="card-container"></div>
       <div id="footer-container"></div>
     </div>
       <script src="script.js"></script>

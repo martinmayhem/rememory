@@ -60,7 +60,7 @@ body {
 
 #highscore-container {
   z-index: 101;
-  background: rgba(0, 0, 0, 0.9);
+  background: black;
 }
 
 #startscreen-container {
@@ -103,13 +103,15 @@ body {
 
 .start-button:hover {
   color: #FFE400;
+}
 
+.start-button:focus {
+  outline: none;
 }
 
 #highscore-content{
   margin:0 auto;
   padding: 3rem;
-  width: 40rem;
   display: block;
   text-align: center;
   font-family: "pixelFont";
@@ -118,36 +120,101 @@ body {
   vertical-align: middle;
 }
 
+.highscore-name {
+  text-align: left;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.highscore-time {
+  text-align: right;
+  flex: auto;
+}
+
 #modal-content{
   margin:0 auto;
   padding: 3rem;
-  height: 25rem;
+  height: 50rem;
   width: 40rem;
-  margin-top: 13rem;
-  border: 2rem solid red;
+  margin-top: 8rem;
+  border: 4rem solid red;
   border-color: #E7328A;
-  border-radius: 1rem;
   display: block;
   background-color: black;
 
 }
 
-#modal-text,
-#highscore-list {
+#modal-header,
+#modal-text-header {
   text-align: center;
   font-family: "pixelFont";
-  font-size: 1rem;
+  font-size: 2.5rem;
+  line-height: 4rem;
+  color: #FFE400;
+  vertical-align: middle;
+  margin-bottom: 1rem;
+}
+
+#modal-header-text {
+  text-align: center;
+  font-family: "pixelFont";
+  font-size: 1.6rem;
+  line-height: 4rem;
+  color: white;
+  vertical-align: middle;
+  margin-bottom: 2rem;
+}
+
+#modal-text{
+  text-align: center;
+  font-family: "pixelFont";
+  font-size: 2rem;
+  line-height: 5rem;
   color: white;
   vertical-align: middle;
 }
 
+#highscore-list {
+  margin-top: 3rem;
+  height: 50rem;
+  overflow-y: scroll;
+  text-align: left;
+  font-family: "pixelFont";
+  font-size: 1rem;
+  color: white;
+  text-transform: uppercase;
+}
+
 .highscore-item {
+  display: flex;
   margin: 2rem;
+  padding: 1rem;
+  border-bottom: 3px dashed #fff;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #FFE400;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #FFE400;
 }
 
 #container {
   min-width:800px;
-  max-width:1200px;
+  max-width:1000px;
   margin:0 auto;
   margin-top: 2rem;
 }
@@ -160,7 +227,7 @@ body {
 .form-input:focus {
   width: 70%;
   height: 3rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   font-family: "pixelFont";
   font-size: 1.4rem;
   color: white;
@@ -174,13 +241,21 @@ input[type=button] {
     background:#FFE400;
     border:0 none;
     cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
     height: 4rem;
     width: 16rem;
-    margin-top: 4rem;
+    margin-top: 6rem;
     font-family: "pixelFont";
     font-size: 2rem;
+    color:black;
+    transition: all 0.2s ease-in-out;
+}
+
+input[type=button]:hover {
+    background: #E7328A;
+}
+
+input[type=button]:focus {
+    outline:none;
 }
 
 #logo-container  {
@@ -205,10 +280,9 @@ input[type=button] {
 
 #timer {
   font-family: 'pixelFont';
-  font-size: 5rem;
+  font-size: 2.5rem;
   color: white;
   margin: 1.5rem;
-  margin-bottom: 3rem;
   text-align: center;
 }
 
@@ -222,9 +296,9 @@ input[type=button] {
 
   .card {
       background-color: white;
-      height: 12rem;
-      width: 8.5rem;
-      margin: 1.5rem;
+      height: 11rem;
+      width: 7.5rem;
+      margin: 1rem;
       border-radius: 1rem;
       transform-style: preserve-3d;
       position: relative;

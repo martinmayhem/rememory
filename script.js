@@ -168,7 +168,7 @@ const checkIfDone = function(){
         pauseTimer();
         document.getElementById("modal").style.visibility = "visible" ;
         document.getElementById("modal").style.opacity = 1 ;
-        document.getElementById("modal-text").innerHTML = "Total time: " + currentTime;
+        document.getElementById("modal-text").innerHTML = currentTime;
         music.pause();
     }
 }
@@ -247,10 +247,11 @@ const showHighscore = function() {
         }
     });
 
-    objects.forEach(function(element){
-        var highscoreItem = "<div class='highscore-item'>" +
-        "<div class='highscore-name'>" + element.name + "</div>" +
-        "<div class='highscore-time'>" + element.time + "</div>" +
+    objects.forEach(function(element, index){
+        var realIndex = index+1;
+        var highscoreItem = "<div class='highscore-item'>" + realIndex + ". " +
+        "<span class='highscore-name'>" + element.name + "</span>" +
+        "<span class='highscore-time'>" + element.time + "</span>" +
         "</div>";
         document.getElementById("highscore-list").innerHTML += highscoreItem;
     });
@@ -372,6 +373,7 @@ if (JSON.parse(localStorage.getItem("savedData")) == null) {
 
 animateCurtainUp();
 
+//TODO: Hur ska man identifiera sig, typ email?
 //TODO: NEW SOUNDS
 //TODO: Snygga till curtain
 //TODO: Curtain Sounds
