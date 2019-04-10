@@ -1,20 +1,23 @@
 //config
 //---------------------------------------------
-let chanceToShuffleOnFlip = 0.8; //20% of the times it shuffles
-let chanceToShuffleOnMatch = 0.5; //50% of the times it shuffles
-let musicVolume = 0; //0.1 should be standard
-let matchConstant = 22 //0 is standard, 22 if you want to debug
+let chanceToShuffleOnFlip = 0.8; //20% of the times on flip it shuffles
+let chanceToShuffleOnMatch = 0.5; //50% of the times on matches it shuffles
+let musicVolume = 0.5; //0.1 should be standard
+let soundVolume = 0.7;
+let matchConstant = 0 //0 is standard, 22 if you want to debug
 
-
+//var
+var muteSound = false;
 var cardsArray = [];
-let lockBoard = false;
-let hasFlippedCard = false;
+var lockBoard = false;
+var hasFlippedCard = false;
 var firstCard  = {};
 var secondCard  = {};
 
-var firstCardFlipSound = new Audio('sound/flipFirst.wav');
-var secondCardFlipSound = new Audio('sound/flipSecond.wav');
+var firstCardFlipSound = new Audio('sound/flipper.wav');
+var secondCardFlipSound = new Audio('sound/flipper2.wav');
 var matchSound = new Audio('sound/match.wav');
+var winnerSound = new Audio('sound/winner.wav');
 var music = new Audio('sound/music.mp3');
 music.loop = true;
 music.volume = musicVolume;
@@ -169,8 +172,11 @@ const checkIfDone = function(){
         document.getElementById("modal").style.visibility = "visible" ;
         document.getElementById("modal").style.opacity = 1 ;
         document.getElementById("modal-text").innerHTML = currentTime;
-        removeCardsFromDom();
         music.pause();
+        setTimeout(() => {
+            removeCardsFromDom();
+            winnerSound.play();
+        }, 800);
     }
 }
 
@@ -377,11 +383,37 @@ if (JSON.parse(localStorage.getItem("savedData")) == null) {
     localStorage.setItem("savedData", JSON.stringify([]));
 }
 
-animateCurtainUp();
+setTimeout(() => {
+        animateCurtainUp();
+    }, 2000);
+
+const muteSounds = function(flag) {
+    if (flag) {
+        document.getElementById("mute-button").classList.remove("mute-button-not-pressed");
+        document.getElementById("mute-button").classList.add("mute-button-pressed");
+        firstCardFlipSound.volume = 0;
+        secondCardFlipSound.volume = 0;
+        matchSound.volume = 0;
+        winnerSound.volume = 0;
+        music.volume = 0;
+    } else {
+        document.getElementById("mute-button").classList.add("mute-button-not-pressed");
+        document.getElementById("mute-button").classList.remove("mute-button-pressed");
+        firstCardFlipSound.volume = soundVolume;
+        secondCardFlipSound.volume = soundVolume;
+        matchSound.volume = soundVolume;
+        winnerSound.volume = soundVolume;
+        music.volume = musicVolume;
+    }
+}
+
+document.getElementById("mute-button").addEventListener("click", function(){
+    muteSound = !muteSound;
+    muteSound ? muteSounds(true) : muteSounds(false);
+});
 
 //TODO: Hur ska man identifiera sig, typ email? två fält i form?
-//TODO: NEW SOUNDS
-//TODO: Curtain Sounds
-//TODO: Win sound
 //TODO: Snygga till kod
 //TODO: FIX ADMIN with reset button
+//RE:Memory fixa om loggan :)
+//Anna musik
