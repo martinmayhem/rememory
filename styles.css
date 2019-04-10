@@ -79,7 +79,7 @@ body {
 }
 
 #highscore-container {
-  z-index: 101;
+  z-index: 103;
   background: black;
 }
 
@@ -372,6 +372,7 @@ input[type=button]:focus {
   background-size: contain;
   backface-visibility: hidden;
   margin-left:0.5rem;
+  z-index: 102;
 }
 
 .card-back {
@@ -385,6 +386,7 @@ input[type=button]:focus {
   background-repeat: no-repeat;
   background-size: 75%;
   background-position: center;
+  z-index: 101;
 }
 
 .card-0,
