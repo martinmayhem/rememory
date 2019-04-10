@@ -1,10 +1,11 @@
 //config
-//---------------------------------------------
 let chanceToShuffleOnFlip = 0.8; //20% of the times on flip it shuffles
-let chanceToShuffleOnMatch = 0.5; //50% of the times on matches it shuffles
+let chanceToShuffleOnMatch = 0.6; //40% of the times on matches it shuffles
 let musicVolume = 0.5; //0.1 should be standard
 let soundVolume = 0.7;
 let matchConstant = 0 //0 is standard, 22 if you want to debug
+//config end
+//---------------------------------------------
 
 //var
 var muteSound = false;
@@ -28,6 +29,20 @@ const resetBoard = function() {
     secondCard = {};
 };
 
+var timerDisplay = document.querySelector('#timer');
+var startTime;
+var updatedTime;
+var difference;
+var tInterval;
+var savedTime;
+var paused = false;
+var running = false;
+var currentTime;
+
+//var end
+//---------------------------------------------
+
+//functions
 const resetCardArray = function() {
     var card0  = {id: "card-0", type: "star", freeze: false, temporaryFreeze: false };
     var card1  = {id: "card-1", type: "box", freeze: false, temporaryFreeze: false };
@@ -86,7 +101,7 @@ const shuffleArray = function(a) {
         a[j] = x;
     }
     return a;
-}
+};
 
 const flipCard = function() {
     if (lockBoard) return;
@@ -138,13 +153,13 @@ const disableCards = function() {
         }
         drawCards(); //Redraw all cards
     }, 200);
-}
+};
 
 const getCardObjectFromDom = function(element) {
     var currentCard = element.firstElementChild.classList[0];
     var foundIndex = cardsArray.findIndex(x => x.id == currentCard);
     return cardsArray[foundIndex];
-}
+};
 
 const flipCardBack = function(card) {
     var cardDom = document.getElementsByClassName(card.id)[0].parentNode;
@@ -162,7 +177,7 @@ const unflipCards = function() {
         flipCardBack(secondCard);
         resetBoard(); //Reset all variables
     }, 800);
-}
+};
 
 const checkIfDone = function(){
     var f = cardsArray.filter((f) => f.freeze == false);
@@ -178,7 +193,7 @@ const checkIfDone = function(){
             winnerSound.play();
         }, 800);
     }
-}
+};
 
 const checkForMatch = function() {
     let isMatch = firstCard.type == secondCard.type;
@@ -268,6 +283,7 @@ const showHighscore = function() {
         document.getElementById("highscore-list").innerHTML += highscoreItem;
     });
 };
+
 const animateCurtainDown = function() {
     document.getElementById("curtain-container").classList.add("translate-down");
     document.getElementById("curtain-container").classList.remove("translate-up");
@@ -312,16 +328,7 @@ const restartGame = function() {
     }, 3000);
 };
 
-//--------------------------- Timer related
-var timerDisplay = document.querySelector('#timer');
-var startTime;
-var updatedTime;
-var difference;
-var tInterval;
-var savedTime;
-var paused = false;
-var running = false;
-var currentTime;
+
 
 function startTimer(){
   if(!running){
@@ -331,7 +338,7 @@ function startTimer(){
     paused = false;
     running = true;
   }
-}
+};
 
 function resetTimer(){
   clearInterval(tInterval);
@@ -339,7 +346,7 @@ function resetTimer(){
   difference = false;
   paused = false;
   running = false;
-}
+};
 
 function pauseTimer(){
   if (!difference){
@@ -353,7 +360,7 @@ function pauseTimer(){
     // if the timer was already paused, when they click pause again, start the timer again
     startTimer();
   }
-}
+};
 
 function getShowTime(){
   updatedTime = new Date().getTime();
@@ -374,18 +381,7 @@ function getShowTime(){
   currentTime = hours + ':' + minutes + ':' + seconds;
   timerDisplay.innerHTML = currentTime;
 
-}
-//--------------------------- Timer related end
-
-//Check if localStorage is clean
-if (JSON.parse(localStorage.getItem("savedData")) == null) {
-    console.log("No data found in localStorage!");
-    localStorage.setItem("savedData", JSON.stringify([]));
-}
-
-setTimeout(() => {
-        animateCurtainUp();
-    }, 2000);
+};
 
 const muteSounds = function(flag) {
     if (flag) {
@@ -405,15 +401,41 @@ const muteSounds = function(flag) {
         winnerSound.volume = soundVolume;
         music.volume = musicVolume;
     }
+};
+
+const clearHighscore = function(flag) {
+    if (flag) {
+        localStorage.setItem("savedData", JSON.stringify([]));
+        console.log("The highscore is now cleared!")
+    } else {
+        console.log("You need to provide the argument true if you want to clear the highscore");
+    }
+
 }
+
+//function end
+//---------------------------------------------
+
+//init
+if (JSON.parse(localStorage.getItem("savedData")) == null) {
+    console.log("No data found in localStorage!");
+    localStorage.setItem("savedData", JSON.stringify([]));
+}
+
+setTimeout(() => {
+        animateCurtainUp();
+}, 2000);
 
 document.getElementById("mute-button").addEventListener("click", function(){
     muteSound = !muteSound;
     muteSound ? muteSounds(true) : muteSounds(false);
 });
 
+//init end
+//---------------------------------------------
+
+
+
 //TODO: Hur ska man identifiera sig, typ email? två fält i form?
-//TODO: Snygga till kod
 //TODO: FIX ADMIN with reset button
-//RE:Memory fixa om loggan :)
-//Anna musik
+//Annan musik
