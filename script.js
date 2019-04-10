@@ -212,7 +212,7 @@ const removeCardsFromDom = function() {
 const drawCards = function() {
     removeCardsFromDom();
     cardsArray.forEach(function(element) {
-    var cardContainer = document.createElement('div')
+        var cardContainer = document.createElement('div')
         cardContainer.className = 'card';
 
         var cardFront = document.createElement('div')
@@ -242,10 +242,10 @@ const formSubmit = function(){
 
     var objects = JSON.parse(localStorage.getItem("savedData"));
     var newEntry = {
-                    "name": currentName,
-                    "time": currentTime,
-                    "email": currentEmail
-                };
+        "name": currentName,
+        "time": currentTime,
+        "email": currentEmail
+    };
     objects.push(newEntry);
     localStorage.setItem("savedData", JSON.stringify(objects));
 
@@ -344,9 +344,9 @@ function startTimer(){
     startTime = new Date().getTime();
     tInterval = setInterval(getShowTime, 1);
 // change 1 to 1000 above to run script every second instead of every millisecond. one other change will be needed in the getShowTime() function below for this to work. see comment there.
-    paused = false;
-    running = true;
-  }
+paused = false;
+running = true;
+}
 };
 
 function resetTimer(){
@@ -360,24 +360,24 @@ function resetTimer(){
 function pauseTimer(){
   if (!difference){
     // if timer never started, don't allow pause button to do anything
-  } else if (!paused) {
+} else if (!paused) {
     clearInterval(tInterval);
     savedTime = difference;
     paused = true;
     running = false;
-  } else {
+} else {
     // if the timer was already paused, when they click pause again, start the timer again
     startTimer();
-  }
+}
 };
 
 function getShowTime(){
   updatedTime = new Date().getTime();
   if (savedTime){
     difference = (updatedTime - startTime) + savedTime;
-  } else {
+} else {
     difference =  updatedTime - startTime;
-  }
+}
   // var days = Math.floor(difference / (1000 * 60 * 60 * 24));
   var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
@@ -454,7 +454,7 @@ if (JSON.parse(localStorage.getItem("savedData")) == null) {
 }
 
 setTimeout(() => {
-        animateCurtainUp();
+    animateCurtainUp();
 }, 2000);
 
 document.getElementById("mute-button").addEventListener("click", function(){
